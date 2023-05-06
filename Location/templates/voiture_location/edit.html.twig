@@ -1,0 +1,13 @@
+{% extends 'baseB.html.twig' %}
+
+{% block title %}Edit VoitureLocation{% endblock %}
+
+{% block body %}
+    <h1>Edit VoitureLocation</h1>
+
+    {{ include('voiture_location/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_voiture_location_index') }}">back to list</a>
+
+    {{ include('voiture_location/_delete_form.html.twig') }}
+{% endblock %}

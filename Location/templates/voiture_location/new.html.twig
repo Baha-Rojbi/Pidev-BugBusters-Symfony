@@ -1,0 +1,43 @@
+{% extends 'baseB.html.twig' %}
+
+{% block title %}New VoitureLocation{% endblock %}
+
+{% block body %}
+<h1></h1>
+<center>
+    <h1>Add a new rental car</h1>
+</center>
+
+<div class="container-xxl flex-grow-1 container-p-y">
+<div class="content-wrapper">
+
+<div class="row">
+    <div class="col-xxl">
+        <div class="card mb-4">
+            <div class="card-body">
+    {{ include('voiture_location/_form.html.twig') }}
+                <img id="preview" src="#" alt="Preview" style="display: none;">
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+    <a href="{{ path('app_voiture_location_index') }}">back to list</a>
+
+    <script>
+        const imageInput = document.getElementById('voiture_location_imageVoiture');
+
+        imageInput.addEventListener('change', (event) => {
+            const selectedFile = event.target.files[0];
+            const previewImage = document.getElementById('preview');
+
+            // Set the source of the preview image to the selected file
+            previewImage.src = URL.createObjectURL(selectedFile);
+
+            // Show the preview image
+            previewImage.style.display = 'block';
+        });
+    </script>
+
+{% endblock %}

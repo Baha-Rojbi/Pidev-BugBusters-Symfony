@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reservez votre voiture{% endblock %}
+
+{% block body %}
+    <h1>Reservez votre voiture</h1>
+
+    <div class="container">
+        {% if voiture_locations|length > 0 %}
+        {% for voiture_location in voiture_locations %}
+            <div class="col-md-4 mb-4">
+                <article class="card">
+                    <img src="{{ asset('uploads/voiture_images/' ~ voiture_location.imageVoiture) }}" alt="Image de la voiture" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ voiture_location.modele }}</h5>
+                        <p class="card-text">Matricule: {{ voiture_location.matricule }}</p>
+                        <p class="card-text">Prix par jour: {{ voiture_location.prixJour }}DT</p>
+                        <a href="{{ path('app_location_new', {'idVoiture': voiture_location.idVoiture}) }}" class="btn btn-primary">Choisir</a>
+
+                    </div>
+                </article>
+            </div>
+        {% endfor %}
+            {{ knp_pagination_render(voiture_locations) }}
+        {% else %}
+            <p>No records found</p>
+        {% endif %}
+
+    </div>
+
+
+
+
+
+
+
+{% endblock %}
+

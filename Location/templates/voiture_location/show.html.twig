@@ -1,0 +1,57 @@
+{% extends 'baseB.html.twig' %}
+
+{% block title %}VoitureLocation{% endblock %}
+
+{% block body %}
+    <center>
+        <h1>VoitureLocation</h1>
+    </center>
+    <div class="card">
+        <div class="table-responsive text-nowrap">
+            <table class="table">
+                <tbody class="table-border-bottom-0">
+                <tr>
+                    <th>IdVoiture</th>
+                    <td>{{ voiture_location.idVoiture }}</td>
+                </tr>
+                <tr>
+                    <th>Matricule</th>
+                    <td>{{ voiture_location.matricule }}</td>
+                </tr>
+                <tr>
+                    <th>Modele</th>
+                    <td>{{ voiture_location.modele }}</td>
+                </tr>
+                <tr>
+                    <th>CarteGrise</th>
+                    <td>{{ voiture_location.carteGrise }}</td>
+                </tr>
+                <tr>
+                    <th>PrixJour</th>
+                    <td>{{ voiture_location.prixJour }}</td>
+                </tr>
+                <tr>
+                    <th>ImageVoiture</th>
+                    <td>
+                        {% if voiture_location.imageVoiture %}
+                            <img src="{{ asset('uploads/voiture_images/' ~ voiture_location.imageVoiture) }}" alt="Image de la voiture" class="card-img-top" style="max-width: 200px;">
+                        {% else %}
+                            No image available.
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>idClient</th>
+                    <td>{{ voiture_location.idClient }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <a href="{{ path('app_voiture_location_index') }}">back to list</a>
+
+    <a href="{{ path('app_voiture_location_edit', {'idVoiture': voiture_location.idVoiture}) }}">edit</a>
+
+    {{ include('voiture_location/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste de locations{% endblock %}
+
+{% block body %}
+    <center>
+    <h1>Your reservations</h1>
+    </center>
+
+    <div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Car image</th>
+            <th>Model</th>
+            <th>Starting date</th>
+            <th>Ending date</th>
+            <th>Price</th>
+            <th>Matricule</th>
+
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for location in locations %}
+            <tr>
+                <td>{% if location.imageVoiture %}
+                        <img src="{{ asset('uploads/voiture_images/' ~ location.imageVoiture) }}" alt="Image de la voiture" class="card-img-top" style="max-width: 200px;">
+                    {% else %}
+                        No image available.
+                    {% endif %}</td>
+                <td>{{ location.modele }}</td>
+                <td>{{ location.dateDebut ? location.dateDebut|date('Y-m-d') : '' }}</td>
+                <td>{{ location.dateFin ? location.dateFin|date('Y-m-d') : '' }}</td>
+                <td>{{ location.prixLocation }} DT</td>
+                <td>{{ location.matricule }}</td>
+
+                <td>
+                    <a href="{{ path('app_location_show', {'idLocation': location.idLocation}) }}">show</a>
+                    <a href="{{ path('app_location_edit', {'idLocation': location.idLocation}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        <a class="btn btn-dark w-100 py-3" href="{{ path('app_location_new') }}">Create a new reservation</a>
+    </div>
+
+
+
+
+
+{% endblock %}
