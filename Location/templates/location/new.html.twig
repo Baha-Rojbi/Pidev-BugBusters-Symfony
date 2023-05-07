@@ -123,7 +123,7 @@
                                         </ol>
                                     </div>
                                     <div class="position-relative mt-auto">
-                                        <img src="{{ asset('uploads/voiture_images/' ~ voiture_location.imageVoiture) }}" alt="Image de la voiture" class="img-fluid">
+                                        <img src="data:image/png;base64,{{ voiture_location.imageVoiture|base64_encode }}" alt="Image de la voiture" class="img-fluid">
                                         <div class="courses-overlay">
                                             <button id="select"  class="btn btn-outline-primary border-2" onclick="scrollToFormu()">Select</button >
                                         </div>

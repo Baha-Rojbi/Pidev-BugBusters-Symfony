@@ -10,7 +10,9 @@
         {% for voiture_location in voiture_locations %}
             <div class="col-md-4 mb-4">
                 <article class="card">
-                    <img src="{{ asset('uploads/voiture_images/' ~ voiture_location.imageVoiture) }}" alt="Image de la voiture" class="card-img-top">
+                    <img src="data:image/png;base64,{{ voiture_location.imageVoiture|base64_encode }}" alt="Image de la voiture" class="card-img-top">
+
+                    
                     <div class="card-body">
                         <h5 class="card-title">{{ voiture_location.modele }}</h5>
                         <p class="card-text">Matricule: {{ voiture_location.matricule }}</p>

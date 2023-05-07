@@ -25,7 +25,7 @@
         {% for location in locations %}
             <tr>
                 <td>{% if location.imageVoiture %}
-                        <img src="{{ asset('uploads/voiture_images/' ~ location.imageVoiture) }}" alt="Image de la voiture" class="card-img-top" style="max-width: 200px;">
+                        <img src="data:image/png;base64,{{ location.imageVoiture|base64_encode }}" alt="Image de la voiture" class="card-img-top" style="max-width: 200px;">
                     {% else %}
                         No image available.
                     {% endif %}</td>

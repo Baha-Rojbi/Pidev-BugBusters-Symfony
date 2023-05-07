@@ -30,55 +30,34 @@ class VoitureLocationController extends AbstractController
     }
 
     #[Route('/new', name: 'app_voiture_location_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $voitureLocation = new VoitureLocation();
-        $form = $this->createForm(VoitureLocationType::class, $voitureLocation);
-        $form->handleRequest($request);
+public function new(Request $request, EntityManagerInterface $entityManager): Response
+{
+    $voitureLocation = new VoitureLocation();
+    $form = $this->createForm(VoitureLocationType::class, $voitureLocation);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Check if the image_voiture field has a value
-            $imageFile = $form->get('imageVoiture')->getData();
-            if ($imageFile) {
-                $newFilename = uniqid().'.'.$imageFile->guessExtension();
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Check if the image_voiture field has a value
+        $imageFile = $form->get('imageVoiture')->getData();
+        if ($imageFile) {
+            $binaryData = file_get_contents($imageFile);
 
-                try {
-                    $imageFile->move(
-                        $this->getParameter('voiture_images_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // handle exception
-                }
-
-                $voitureLocation->setImageVoiture($newFilename);
-            }
-
-            $entityManager->persist($voitureLocation);
-            $entityManager->flush();
-
-            // Send an SMS notification using Twilio
-            $twilioClient = new Client($_ENV['TWILIO_ACCOUNT_SID'], $_ENV['TWILIO_AUTH_TOKEN']);
-            $twilioPhoneNumber = $_ENV['TWILIO_PHONE_NUMBER'];
-            $recipientPhoneNumber = '+21653802106'; // Replace with the recipient's phone number
-            $message = 'A new VoitureLocation entity has been added!'; // Customize your message here
-            $twilioClient->messages->create(
-                $recipientPhoneNumber,
-                [
-                    'from' => $twilioPhoneNumber,
-                    'body' => $message,
-                ]
-            );
-
-            // Redirect the user to the index page
-            return $this->redirectToRoute('app_voiture_location_index', [], Response::HTTP_SEE_OTHER);
+            $voitureLocation->setImageVoiture($binaryData);
         }
 
-        return $this->renderForm('voiture_location/new.html.twig', [
-            'voiture_location' => $voitureLocation,
-            'form' => $form,
-        ]);
+        $entityManager->persist($voitureLocation);
+        $entityManager->flush();
+
+        
+        // Redirect the user to the index page
+        return $this->redirectToRoute('app_voiture_location_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    return $this->renderForm('voiture_location/new.html.twig', [
+        'voiture_location' => $voitureLocation,
+        'form' => $form,
+    ]);
+}
 
     #[Route('/{idVoiture}', name: 'app_voiture_location_show', methods: ['GET'])]
     public function show(VoitureLocation $voitureLocation): Response
@@ -93,19 +72,21 @@ class VoitureLocationController extends AbstractController
     {
         $form = $this->createForm(VoitureLocationType::class, $voitureLocation);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
             // Check if the image_voiture field has a value
             $imageVoitureFile = $form->get('imageVoiture')->getData();
             if ($imageVoitureFile) {
-                $voitureLocation->setImageVoiture($imageVoitureFile);
+                $binaryData = file_get_contents($imageVoitureFile);
+    
+                $voitureLocation->setImageVoiture($binaryData);
             }
-
+    
             $entityManager->flush();
-
+    
             return $this->redirectToRoute('app_voiture_location_index', [], Response::HTTP_SEE_OTHER);
         }
-
+    
         return $this->renderForm('voiture_location/edit.html.twig', [
             'voiture_location' => $voitureLocation,
             'form' => $form,
@@ -122,5 +103,6 @@ class VoitureLocationController extends AbstractController
 
         return $this->redirectToRoute('app_voiture_location_index', [], Response::HTTP_SEE_OTHER);
     }
+    
 
 }

@@ -34,7 +34,9 @@
                     <th>ImageVoiture</th>
                     <td>
                         {% if voiture_location.imageVoiture %}
-                            <img src="{{ asset('uploads/voiture_images/' ~ voiture_location.imageVoiture) }}" alt="Image de la voiture" class="card-img-top" style="max-width: 200px;">
+                        <img src="data:image/png;base64,{{ voiture_location.imageVoiture|base64_encode }}" alt="Image de la voiture" class="card-img-top" style="max-width: 200px;">
+
+                            
                         {% else %}
                             No image available.
                         {% endif %}

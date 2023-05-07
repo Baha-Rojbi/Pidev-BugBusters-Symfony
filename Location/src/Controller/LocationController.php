@@ -113,18 +113,7 @@ class LocationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-// Send an SMS notification using Twilio
-            $twilioClient = new Client($_ENV['TWILIO_ACCOUNT_SID'], $_ENV['TWILIO_AUTH_TOKEN']);
-            $twilioPhoneNumber = $_ENV['TWILIO_PHONE_NUMBER'];
-            $recipientPhoneNumber = '+21653802106'; // Replace with the recipient's phone number
-            $message = 'Rental modified successfuly!'; // Customize your message here
-            $twilioClient->messages->create(
-                $recipientPhoneNumber,
-                [
-                    'from' => $twilioPhoneNumber,
-                    'body' => $message,
-                ]
-            );
+
             return $this->redirectToRoute('app_location_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -140,18 +129,7 @@ class LocationController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$location->getIdLocation(), $request->request->get('_token'))) {
             $entityManager->remove($location);
             $entityManager->flush();
-            // Send an SMS notification using Twilio
-            $twilioClient = new Client($_ENV['TWILIO_ACCOUNT_SID'], $_ENV['TWILIO_AUTH_TOKEN']);
-            $twilioPhoneNumber = $_ENV['TWILIO_PHONE_NUMBER'];
-            $recipientPhoneNumber = '+21653802106'; // Replace with the recipient's phone number
-            $message = 'You have canceled your reservation!'; // Customize your message here
-            $twilioClient->messages->create(
-                $recipientPhoneNumber,
-                [
-                    'from' => $twilioPhoneNumber,
-                    'body' => $message,
-                ]
-            );
+            
         }
 
         return $this->redirectToRoute('app_location_index', [], Response::HTTP_SEE_OTHER);
