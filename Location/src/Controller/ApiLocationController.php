@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
 
 #[Route('/api')]
-class ApiController extends AbstractController
+class ApiLocationController extends AbstractController
 {
     #[Route('/voiturelocation', name: 'voiturelocation_api', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager): Response
