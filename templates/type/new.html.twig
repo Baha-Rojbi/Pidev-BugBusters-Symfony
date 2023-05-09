@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+{% block title %}Add Type{% endblock %}
+ {% block container %}
+    <div class="row">
+
+                <!-- Basic Layout -->
+                <div class="col-xxl">
+                  <div class="card mb-4">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                      <h5 class="mb-0">Add Type</h5>
+                     
+                    </div>
+                    <div class="card-body">
+   <form method="{{ form.vars.method }}" action="{{ path('ajouterType') }}" enctype="multipart/form-data">
+                    {{ form_start(form) }}
+
+                    <div class="row mb-3">
+                        {{ form_label(form.category, 'Category:', {'label_attr': {'class': 'col-sm-2 col-form-label'}}) }}
+                        <div class="col-sm-10">
+                            {{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.category) }} {# Affichage des erreurs de validation du champ date #}
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        {{ form_label(form.descprition, 'Description:', {'label_attr': {'class': 'col-sm-2 col-form-label'}}) }}
+                        <div class="col-sm-10">
+                            {{ form_widget(form.descprition, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.descprition) }} {# Affichage des erreurs de validation du champ description #}
+                        </div>
+                    </div>
+
+                 
+
+
+                    <div class="row justify-content-end">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+                </form>
+
+
+                    </div>
+                  </div>
+                </div>
+                     </div>
+
+   
+
+
+{% endblock %}

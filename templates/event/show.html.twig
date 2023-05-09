@@ -1,0 +1,42 @@
+ 
+ {% extends 'base.html.twig' %}
+{% block title %}liste Events{% endblock %}
+ {% block container %}
+
+
+
+
+  <div class="card">
+                
+       <div class="d-flex justify-content-between">
+    <h5 class="card-header">Detail Event</h5>
+ 
+</div>
+
+              
+             
+ <div class="card-body">
+ 
+ 
+ <h1>{{ event.nom }}</h1>
+
+    <dl class="row">
+        <dt class="col-sm-3">Description</dt>
+        <dd class="col-sm-9">{{ event.description }}</dd>
+
+        <dt class="col-sm-3">Date </dt>
+        <dd class="col-sm-9">{{ event.date|date('d/m/Y H:i') }}</dd>
+          <dt class="col-sm-3">qrcode </dt>
+        <dd class="col-sm-9"><img src="{{ qrCode }}" alt="qr-code"></dd>
+
+
+        <dt class="col-sm-3">Image</dt>
+        <dd class="col-sm-9"><img style="padding-right: 2px; padding-left: 2px; width: 100px; height: 80px;" src="{{ asset('uploads/' ~ event.getImage()) }}" alt="Event Image"></dd>
+    </dl>
+
+
+
+    <a href="{{ path('app_event_index') }}">Retour à la liste des événements</a>
+
+    </div>
+    {% endblock %}

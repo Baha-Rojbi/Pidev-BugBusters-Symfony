@@ -1,0 +1,173 @@
+{% extends 'base.html.twig' %}
+{% block title %}liste Events{% endblock %}
+ {% block container %}
+
+<script src="{{ asset('jquery.min.js') }}"></script>
+
+
+  <div class="card">
+                
+       <div class="d-flex justify-content-between">
+    <h5 class="card-header">Liste des Events</h5>
+    <div class="demo-inline-spacing">
+        <a href="{{ path('ajouterEvent') }}" class="btn rounded-pill btn-danger">Add Event</a>
+    </div>
+</div>
+
+              
+                <div class="table-responsive text-nowrap">
+ <div class="card-body">
+                    
+            <input type="text" class="form-control" placeholder="Search…" aria-label="Search"id="search">
+
+
+    <table class="table" id="tableac">
+       <thead class="table-light">
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                
+                <th>Nom</th>
+            
+                   <th>Type</th>
+                
+                <th>Image</th>
+             
+                <th>actions</th>
+            </tr>
+        </thead>
+         <tbody class="table-border-bottom-0">
+        {% for event in events %}
+            <tr>
+                <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{ event.id }}</strong></td>
+                <td>{{ event.date|date('d-m-Y H:i:s')}}</td>
+                        
+
+ 
+     
+      
+                <td>{{ event.nom }}</td>
+                  <td><span class="badge bg-label-primary me-1">{{ event.type.category }}</span></td>
+                   <td>{{ event.description }}</td>
+ 
+                 
+<td><img style="padding-right: 2px; padding-left: 2px; width: 100px; height: 80px;" src="{{ asset('uploads/' ~ event.getImage()) }}" alt="Event Image"></td>
+                
+                <td>
+                <div class="dropdown">
+                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                              <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                              <a class="dropdown-item" href="{{ path('updateEvent', {'id': event.id}) }}"
+                                ><i class="bx bx-edit-alt me-1"></i> Edit</a
+                              >
+                                <a class="dropdown-item" href="{{ path('app_event_show', {'id': event.id}) }}"
+                                ><i class="bx bx-edit-alt me-1"></i> Show</a
+                              >
+                              <a class="dropdown-item" href={{path('deleteEvent',{'id':event.id }) }}"
+                                ><i class="bx bx-trash me-1"></i> Delete</a
+                              >
+                            </div>
+                          </div>
+  
+                  
+            </td>
+          
+               <script>
+                $(document).ready(function(){
+                    $('#search').keyup(function(){
+                        search_table($(this).val());
+                    });
+                    function search_table(value){
+                        $('#tableac tbody tr').each(function(){
+                            var found = 'false';
+                            $(this).each(function(){
+                                if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                                {
+                                    found = 'true';
+                                }
+                            });
+                            if(found == 'true')
+                            {
+                                $(this).show();
+
+                            }
+                            else
+                            {
+                                $(this).hide();
+
+                            }
+                        });
+                    }
+                });
+            </script>
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
+  
+              </div>
+              
+ </div>
+
+  <div class="col">
+        
+        <div class="d-flex justify-content-center"> 
+          <!-- Basic Pagination -->
+          <nav aria-label="Page navigation" >
+          <ul class="pagination">
+    <li class="page-item first">
+        {% if hasPreviousPage %}
+            <a class="page-link" href="{{ path('app_event_index', {'page': 1}) }}"><i class="tf-icon bx bx-chevrons-left"></i></a>
+        {% else %}
+            <a class="page-link disabled" href="#"><i class="tf-icon bx bx-chevrons-left"></i></a>
+        {% endif %}
+    </li>
+    <li class="page-item prev">
+        {% if hasPreviousPage %}
+            <a class="page-link" href="{{ path('app_event_index', {'page': events.getCurrentPageNumber() - 1}) }}"><i class="tf-icon bx bx-chevron-left"></i></a>
+        {% else %}
+            <a class="page-link disabled" href="#"><i class="tf-icon bx bx-chevron-left"></i></a>
+        {% endif %}
+    </li>
+    {% for page in 1..events.getPageCount() %}
+        <li class="page-item {% if events.getCurrentPageNumber() == page %}active{% endif %}">
+            <a class="page-link" href="{{ path('app_event_index', {'page': page}) }}">{{ page }}</a>
+        </li>
+    {% endfor %}
+    <li class="page-item next">
+        {% if hasNextPage %}
+            <a class="page-link" href="{{ path('app_event_index', {'page': events.getCurrentPageNumber() + 1}) }}"><i class="tf-icon bx bx-chevron-right"></i></a>
+        {% else %}
+            <a class="page-link disabled" href="#"><i class="tf-icon bx bx-chevron-right"></i></a>
+        {% endif %}
+    </li>
+    <li class="page-item last">
+        {% if hasNextPage %}
+            <a class="page-link" href="{{ path('app_event_index', {'page': events.getPageCount()}) }}"><i class="tf-icon bx bx-chevrons-right"></i></a>
+        {% else %}
+            <a class="page-link disabled" href="#"><i class="tf-icon bx bx-chevrons-right"></i></a>
+        {% endif %}
+    </li>
+</ul>
+
+          </nav>
+          <!--/ Basic Pagination -->
+        </div>
+      </div>  
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.js" integrity="sha256-AM67JiNJ27oZIs55VNRBo6vAVVQ1iwg1PDN94mdDZA8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.5.1/main.min.js" integrity="sha256-9puLsDK3mkUV8FSsGLlSRT+uJogUINfaCq56mzSUP/w=" crossorigin="anonymous"></script>
+    
+{% endblock %}

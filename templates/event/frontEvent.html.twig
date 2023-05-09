@@ -1,0 +1,111 @@
+{% extends 'front.html.twig' %}
+{% block title %} Events{% endblock %}
+{% block name %} Events{% endblock %}
+{% block namepath %} Events{% endblock %}
+
+
+ {% block container %}
+<a href="{{ path('calendar') }}" class="btn btn-warning text-white">Calendar</a>
+<iframe hidden width="560" height="315" src="https://www.youtube.com/embed/gZLnq2GFEXU?autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>  <div class="row g-4 justify-content-center" >
+
+   {% for event in events %}
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="courses-item d-flex flex-column bg-light overflow-hidden h-100">
+                        <div class="text-center p-4 pt-0">
+                            <div class="d-inline-block bg-primary text-white fs-5 py-1 px-4 mb-4">{{ event.type.category }}</div>
+                            <h5 class="mb-3">{{ event.nom }}</h5>
+                            <p>{{ event.description }}</p>
+                            <ol class="breadcrumb justify-content-center mb-0">
+                                <li class="breadcrumb-item small"><i class="fa fa-calendar-alt text-primary me-2"></i>{{ event.date|date('d-m-Y H:i:s')}}</li>
+                            </ol>
+                        </div>
+                        <div class="position-relative mt-auto">
+                            <img max-width:100%; height="450" src="{{ asset('uploads/' ~ event.getImage()) }}" alt="">
+                            <div class="courses-overlay">
+                            <button>
+                                <a class="dropdown-item" href="{{ path('app_eventf_show', {'id': event.id}) }}"
+                                ><i class="bx bx-edit-alt me-1"></i> Show</a
+                              >
+                              </button> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              
+              {% else %}
+             <div class="alert alert-primary" role="alert">
+  no records found
+</div>
+                {% endfor %}
+     <script>
+   $(document).ready(function(){
+      $('#search').keyup(function(){
+         search_cards($(this).val());
+      });
+
+      function search_cards(value){
+         $('#card-container .courses-item').each(function(){
+            var cardText = $(this).find('h5').text().toLowerCase();
+            if(cardText.indexOf(value.toLowerCase()) >= 0){
+               $(this).show();
+            }
+            else{
+               $(this).hide();
+            }
+         });
+      }
+   });
+</script>
+
+            </div>
+            <br>
+              
+<div class="col">
+    <div class="d-flex justify-content-center"> 
+
+
+        <!-- Basic Pagination -->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item">
+                    {% if hasPreviousPage %}
+                        <a class="page-link" href="{{ path('frontEvent', {'page': 1}) }}">Previous</a>
+                    {% else %}
+                        <a class="page-link disabled" href="#">Previous</a>
+                    {% endif %}
+                </li>
+                <li class="page-item">
+                    {% if hasPreviousPage %}
+                        <a class="page-link" href="{{ path('frontEvent', {'page': events.getCurrentPageNumber() - 1}) }}">‹</a>
+                    {% else %}
+                        <a class="page-link disabled" href="#">‹</a>
+                    {% endif %}
+                </li>
+                {% for page in 1..events.getPageCount() %}
+                    <li class="page-item {% if events.getCurrentPageNumber() == page %}active{% endif %}">
+                        <a class="page-link" href="{{ path('frontEvent', {'page': page}) }}">{{ page }}</a>
+                    </li>
+                {% endfor %}
+                <li class="page-item">
+                    {% if hasNextPage %}
+                        <a class="page-link" href="{{ path('frontEvent', {'page': events.getCurrentPageNumber() + 1}) }}">›</a>
+                    {% else %}
+                        <a class="page-link disabled" href="#">›</a>
+                    {% endif %}
+                </li>
+                <li class="page-item">
+                    {% if hasNextPage %}
+                        <a class="page-link" href="{{ path('frontEvent', {'page': events.getPageCount()}) }}">Next</a>
+                    {% else %}
+                        <a class="page-link disabled" href="#">Next</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </nav>
+        <!--/ Basic Pagination -->
+    </div>
+</div>
+
+
+
+ {% endblock %}

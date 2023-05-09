@@ -1,0 +1,92 @@
+{% extends 'front.html.twig' %}
+{% block title %} Calendar{% endblock %}
+{% block name %} Calendar{% endblock %}
+{% block namepath %} Calendar{% endblock %}
+
+
+ {% block container %}
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.5.1/main.css" integrity="sha256-/rB/IDulpFpJSHjrUgRHzB99AnJh3RBNrUOpF+4QIKA=" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.js" integrity="sha256-AM67JiNJ27oZIs55VNRBo6vAVVQ1iwg1PDN94mdDZA8=" crossorigin="anonymous"></script>
+
+  <div class="card" >
+        <div class="card-header">
+            <style>
+
+                #calendrier{
+
+                    width: 80%;
+                    margin : auto;
+
+
+                }
+
+
+            </style>
+
+            <div id="calendrier"></div>
+
+
+
+
+
+
+
+            <script>
+                window.onload = () => {
+                    // On va chercher la div dans le HTML
+                    let calendarEl = document.querySelector("#calendrier")
+
+                    // On instancie le calendrier
+                    let calendar = new FullCalendar.Calendar(calendarEl, {
+                        initialView: 'dayGridMonth',
+                        //date en fr
+                        locale: 'fr',
+                        // zone
+                        timeZone :'Africa/Tunisia',
+                        //modifier les boutons de l'entete (la forme du clanedrier)
+                        headerToolbar :{
+                            start :'prev,next today',
+                            center : 'title',
+                            end : 'dayGridMonth,timeGridWeek'
+
+                        },
+
+                        events: {{ data|raw }},
+                        //deplacer event
+                        editable: true,
+                        // elargir ou l'inverse du periode de l'event
+                        eventResizableFromStart: true
+
+
+                    })
+                    calendar.on('eventChange',(e)=>{
+
+
+                        let url = `/api/${e.events.id}/edit`
+                        let donnees ={
+                            "title": e.events.title,
+                            "start": e.events.start,
+                            "end": e.events.end,
+                            
+                           
+                           
+                            "image": e.events.image
+
+                        }
+                        let xhr = new XMLHttpRequest()
+                        xhr.open('PUT',url)
+                        xhr.send(JSON.stringify(donnees))
+
+                    })
+                    // On affiche le calendrier
+                    calendar.render();
+                }
+
+
+            </script>
+        </div>
+    </div>
+
+
+
+ {% endblock %}

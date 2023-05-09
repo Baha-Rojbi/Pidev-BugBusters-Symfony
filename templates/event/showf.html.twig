@@ -1,0 +1,42 @@
+ 
+ {% extends 'front.html.twig' %}
+{% block title %} Events details{% endblock %}
+{% block name %} Events details{% endblock %}
+{% block namepath %} Events details{% endblock %}
+
+
+ {% block container %}
+ 
+<br>
+  <div class="row g-4 justify-content-center" >
+   <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="courses-item d-flex flex-column bg-light overflow-hidden h-100">
+                        <div class="text-center p-4 pt-0">
+                            <div class="d-inline-block bg-primary text-white fs-5 py-1 px-4 mb-4">{{ event.type.category }}</div>
+                            <h5 class="mb-3">{{ event.nom }}</h5>
+
+                                                               <iframe width="400" height="400" src="https://www.youtube.com/embed/gZLnq2GFEXU?autoplay=1"></iframe>  <div class="row g-4 justify-content-center" >
+
+                            <p>{{ event.description }}</p>
+                            <ol class="breadcrumb justify-content-center mb-0">
+                                <li class="breadcrumb-item small"><i class="fa fa-calendar-alt text-primary me-2"></i>{{ event.date|date('d-m-Y H:i:s')}}</li>
+                            </ol>
+                        </div>
+                        <div class="position-relative mt-auto">
+                            <img max-width:100%; height="450" src="{{ qrCode }}" alt="">
+                            <div class="courses-overlay">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                  </div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ {% endblock %}
